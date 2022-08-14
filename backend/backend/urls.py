@@ -19,6 +19,7 @@ from rest_framework.routers import DefaultRouter
 from library.views import AuthorModelViewSet, author_get, author_post, BookModelViewSet, book_get
 
 router = DefaultRouter()
+# router = SimpleRouter()
 router.register('authors', AuthorModelViewSet)
 router.register('books', BookModelViewSet)
 
