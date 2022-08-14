@@ -46,11 +46,5 @@ def author_post(request, pk=None):
         json_data = JSONRenderer().render(serializer.data)
         return HttpResponse(json_data)
 
-    return HttpResponseBadRequest()  # вернем ошибку
+    return HttpResponseBadRequest(JSONRenderer().render(serializer.errors))  # вернем на frontend ошибку валидации
 
-# NotImplementedError at /author_post
-# `create()` must be implemented.
-# Request Method: POST
-# потому что нет явной связи с моделью
-# в сериализаторе
-# нет методов updata(),create()

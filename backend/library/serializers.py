@@ -1,3 +1,4 @@
+from rest_framework.exceptions import ValidationError
 from rest_framework.fields import CharField, IntegerField
 from rest_framework.serializers import ModelSerializer, Serializer
 from .models import Author
@@ -9,7 +10,8 @@ class AuthorSerializer(Serializer):
     birthday_year = IntegerField()
 
     def update(self, instance, validated_data):  # PUT запрос: редактирование модели
-        instance.first_name = validated_data.get('first_name', instance.first_name)  # значение по умолчанию для метода PATCH
+        instance.first_name = validated_data.get('first_name',
+                                                 instance.first_name)  # значение по умолчанию для метода PATCH
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.birthday_year = validated_data.get('birthday_year', instance.birthday_year)
         instance.save()
@@ -19,6 +21,16 @@ class AuthorSerializer(Serializer):
         author = Author(**validated_data)
         author.save()
         return author
+
+    def validate_birthday_year(self, value):  # валидация по полю: PATCH "birthday_year": 2010 -> {"birthday_year":["18+"]}
+        if value > 2004:
+            raise ValidationError('18+')
+        return value
+
+    def validate(self, attrs):  #  валидация по более чем одному полю
+        if attrs.get('last_name') == 'Бредбери' and attrs.get('birthday_year') != 1920:
+            raise ValidationError('birthday_year must be 1920')  # POST {"non_field_errors":["birthday_year must be 1920"]}
+        return attrs
 
 
 class AuthorModelSerializer(ModelSerializer):
