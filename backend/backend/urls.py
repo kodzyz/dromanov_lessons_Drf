@@ -26,6 +26,9 @@ urlpatterns = [
     path('api/', include(router.urls)),
 
     path('author_get', author_get),
+    path('author_get/<int:pk>', author_get),
+
     path('author_post', author_post),
+    path('author_post/<int:pk>', author_post),
 
 ]
