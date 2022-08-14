@@ -48,6 +48,7 @@ class AuthorModelSerializer(ModelSerializer):
 
 
 class BookModelSerializer(ModelSerializer):
+    authors = AuthorModelSerializer(many=True)
     class Meta:
         model = Book
         fields = '__all__'
