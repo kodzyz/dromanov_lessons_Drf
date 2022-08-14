@@ -24,10 +24,15 @@ def author_get(request):
 @csrf_exempt  # исключение для POST запроса иначе будет ошибка CSRF verification failed. Request aborted
 def author_post(request):
     json_data = JSONParser().parse(io.BytesIO(request.body))
-    serializer = AuthorSerializer(data=json_data)
+
+    if request.method == 'POST':
+        serializer = AuthorSerializer(data=json_data)
+    elif request.method == 'PUT':
+        author = Author.objects.get(pk=4)
+        serializer = AuthorSerializer(author, data=json_data)  # хотим модифицировать объект -> метод update(author=instance)
 
     if serializer.is_valid():  # валидация данных
-        author = serializer.save()  # создать и сохранить объект: метод create()
+        author = serializer.save()  # создать и сохранить объект: вернет метод create() либо update()
         # объект переводим в JSON
         serializer = AuthorSerializer(author)
         json_data = JSONRenderer().render(serializer.data)

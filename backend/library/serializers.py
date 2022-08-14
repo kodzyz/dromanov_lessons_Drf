@@ -8,8 +8,12 @@ class AuthorSerializer(Serializer):
     last_name = CharField(max_length=64)
     birthday_year = IntegerField()
 
-    def update(self, instance, validated_data):
-        pass
+    def update(self, instance, validated_data):  # PUT запрос: редактирование модели
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.birthday_year = validated_data.get('birthday_year', instance.birthday_year)
+        instance.save()
+        return instance
 
     def create(self, validated_data):  # создает объкт из валидированных данных
         author = Author(**validated_data)
