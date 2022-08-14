@@ -1,8 +1,8 @@
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.viewsets import ModelViewSet
-from .models import Author
-from .serializers import AuthorModelSerializer, AuthorSerializer
+from .models import Author, Book
+from .serializers import AuthorModelSerializer, AuthorSerializer, BookModelSerializer, BookSerializer
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 import io
@@ -11,6 +11,19 @@ import io
 class AuthorModelViewSet(ModelViewSet):
     serializer_class = AuthorModelSerializer
     queryset = Author.objects.all()
+
+
+class BookModelViewSet(ModelViewSet):
+    serializer_class = BookModelSerializer
+    queryset = Book.objects.all()
+
+
+def book_get(request):
+    books = Book.objects.all()
+    serializer = BookSerializer(books, many=True)
+
+    json_data = JSONRenderer().render(serializer.data)
+    return HttpResponse(json_data)
 
 
 def author_get(request, pk=None):
@@ -33,10 +46,12 @@ def author_post(request, pk=None):
         serializer = AuthorSerializer(data=json_data)
     elif request.method == 'PUT':  # маршрутизация на метод update
         author = Author.objects.get(pk=pk)
-        serializer = AuthorSerializer(author, data=json_data)  # хотим модифицировать объект -> метод update(author=instance)
+        serializer = AuthorSerializer(author,
+                                      data=json_data)  # хотим модифицировать объект -> метод update(author=instance)
     elif request.method == 'PATCH':
         author = Author.objects.get(pk=pk)
-        serializer = AuthorSerializer(author, data=json_data, partial=True)  # partial=True частично переданный набор данных считается валидным
+        serializer = AuthorSerializer(author, data=json_data,
+                                      partial=True)  # partial=True частично переданный набор данных считается валидным
 
     if serializer.is_valid():  # валидация данных
         author = serializer.save()  # создать и сохранить объект: вернет метод create() либо update()
@@ -47,4 +62,3 @@ def author_post(request, pk=None):
         return HttpResponse(json_data)
 
     return HttpResponseBadRequest(JSONRenderer().render(serializer.errors))  # вернем на frontend ошибку валидации
-

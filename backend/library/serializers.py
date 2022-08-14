@@ -1,7 +1,7 @@
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import CharField, IntegerField
 from rest_framework.serializers import ModelSerializer, Serializer
-from .models import Author
+from .models import Author, Book
 
 
 class AuthorSerializer(Serializer):
@@ -22,19 +22,32 @@ class AuthorSerializer(Serializer):
         author.save()
         return author
 
-    def validate_birthday_year(self, value):  # валидация по полю: PATCH "birthday_year": 2010 -> {"birthday_year":["18+"]}
+    def validate_birthday_year(self,
+                               value):  # валидация по полю: PATCH "birthday_year": 2010 -> {"birthday_year":["18+"]}
         if value > 2004:
             raise ValidationError('18+')
         return value
 
-    def validate(self, attrs):  #  валидация по более чем одному полю
+    def validate(self, attrs):  # валидация по более чем одному полю
         if attrs.get('last_name') == 'Бредбери' and attrs.get('birthday_year') != 1920:
-            raise ValidationError('birthday_year must be 1920')  # POST {"non_field_errors":["birthday_year must be 1920"]}
+            raise ValidationError(
+                'birthday_year must be 1920')  # POST {"non_field_errors":["birthday_year must be 1920"]}
         return attrs
+
+
+class BookSerializer(Serializer):
+    title = CharField(max_length=64)
+    authors = AuthorSerializer(many=True) # много авторов для одной книжки
 
 
 class AuthorModelSerializer(ModelSerializer):
     class Meta:
         model = Author
         # fields = ['first_name', 'last_name']
+        fields = '__all__'
+
+
+class BookModelSerializer(ModelSerializer):
+    class Meta:
+        model = Book
         fields = '__all__'
