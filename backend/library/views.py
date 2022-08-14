@@ -3,12 +3,13 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.viewsets import ModelViewSet
 from .models import Author, Book
 from .serializers import AuthorModelSerializer, AuthorSerializer, BookModelSerializer, BookSerializer
-from rest_framework.renderers import JSONRenderer
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.parsers import JSONParser
 import io
 
 
 class AuthorModelViewSet(ModelViewSet):
+    #renderer_classes = [JSONRenderer, BrowsableAPIRenderer]  # явно определяем список renderer_classes
     serializer_class = AuthorModelSerializer
     queryset = Author.objects.all()
 
