@@ -9,7 +9,7 @@ class AuthorSerializer(Serializer):
     birthday_year = IntegerField()
 
     def update(self, instance, validated_data):  # PUT запрос: редактирование модели
-        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.first_name = validated_data.get('first_name', instance.first_name)  # значение по умолчанию для метода PATCH
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.birthday_year = validated_data.get('birthday_year', instance.birthday_year)
         instance.save()

@@ -25,14 +25,18 @@ def author_get(request):
 def author_post(request):
     json_data = JSONParser().parse(io.BytesIO(request.body))
 
-    if request.method == 'POST':
+    if request.method == 'POST':  # маршрутизация на метод create
         serializer = AuthorSerializer(data=json_data)
-    elif request.method == 'PUT':
+    elif request.method == 'PUT':  # маршрутизация на метод update
         author = Author.objects.get(pk=4)
         serializer = AuthorSerializer(author, data=json_data)  # хотим модифицировать объект -> метод update(author=instance)
+    elif request.method == 'PATCH':
+        author = Author.objects.get(pk=4)
+        serializer = AuthorSerializer(author, data=json_data, partial=True)  # partial=True частично переданный набор данных считается валидным
 
     if serializer.is_valid():  # валидация данных
         author = serializer.save()  # создать и сохранить объект: вернет метод create() либо update()
+
         # объект переводим в JSON
         serializer = AuthorSerializer(author)
         json_data = JSONRenderer().render(serializer.data)
