@@ -27,7 +27,7 @@ def author_post(request):
     serializer = AuthorSerializer(data=json_data)
 
     if serializer.is_valid():  # валидация данных
-        author = serializer.save()  # создать и сохранить объект
+        author = serializer.save()  # создать и сохранить объект: метод create()
         # объект переводим в JSON
         serializer = AuthorSerializer(author)
         json_data = JSONRenderer().render(serializer.data)
@@ -38,6 +38,6 @@ def author_post(request):
 # NotImplementedError at /author_post
 # `create()` must be implemented.
 # Request Method: POST
-# потому что
+# потому что нет явной связи с моделью
 # в сериализаторе
 # нет методов updata(),create()
