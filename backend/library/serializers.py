@@ -1,5 +1,6 @@
 from rest_framework.exceptions import ValidationError
 from rest_framework.fields import CharField, IntegerField
+from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import ModelSerializer, Serializer
 from .models import Author, Book
 
@@ -48,7 +49,7 @@ class AuthorModelSerializer(ModelSerializer):
 
 
 class BookModelSerializer(ModelSerializer):
-    authors = AuthorModelSerializer(many=True)
+    authors = StringRelatedField(many=True)  # из модели берется def __str__(self):
     class Meta:
         model = Book
         fields = '__all__'
