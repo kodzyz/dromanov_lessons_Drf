@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from library.views import AuthorModelViewSet, author_get, author_post, BookModelViewSet, book_get
+from library.views import *  # AuthorModelViewSet, author_get, author_post, BookModelViewSet, book_get
 
 router = DefaultRouter()
 # router = SimpleRouter()
@@ -35,6 +35,8 @@ urlpatterns = [
 
     path('author_post', author_post),
     path('author_post/<int:pk>', author_post),
-
+    # ApiView
+    path('book_api_get_class', BookApiView.as_view()),
+    path('book_api_get', book_api_get),
 
 ]

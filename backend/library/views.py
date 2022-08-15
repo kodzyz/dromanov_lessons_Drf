@@ -1,15 +1,18 @@
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import Author, Book
 from .serializers import AuthorModelSerializer, AuthorSerializer, BookModelSerializer, BookSerializer
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.parsers import JSONParser
 import io
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view, renderer_classes
 
 
 class AuthorModelViewSet(ModelViewSet):
-    #renderer_classes = [JSONRenderer, BrowsableAPIRenderer]  # явно определяем список renderer_classes
+    # renderer_classes = [JSONRenderer, BrowsableAPIRenderer]  # явно определяем список renderer_classes
     serializer_class = AuthorModelSerializer
     queryset = Author.objects.all()
 
@@ -17,6 +20,23 @@ class AuthorModelViewSet(ModelViewSet):
 class BookModelViewSet(ModelViewSet):
     serializer_class = BookModelSerializer
     queryset = Book.objects.all()
+
+
+class BookApiView(APIView):
+    renderer_classes = [JSONRenderer]  # можем задавать способ render
+
+    def get(self, request):
+        books = Book.objects.all()
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)  # разница не задаем render
+
+
+@api_view(['GET'])  # аналогично APIView
+@renderer_classes([JSONRenderer])
+def book_api_get(request):
+    books = Book.objects.all()
+    serializer = BookSerializer(books, many=True)
+    return Response(serializer.data)
 
 
 def book_get(request):
