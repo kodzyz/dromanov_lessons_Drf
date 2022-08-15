@@ -9,8 +9,9 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.parsers import JSONParser
 import io
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView  # конкретизированные views
+from rest_framework.decorators import api_view, renderer_classes, action
+from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView, \
+    get_object_or_404  # конкретизированные views
 
 
 class AuthorModelViewSet(ModelViewSet):
@@ -18,10 +19,10 @@ class AuthorModelViewSet(ModelViewSet):
     serializer_class = AuthorModelSerializer
     queryset = Author.objects.all()
 
-    # def perform_destroy(self, instance):  # вариант при частичном удалении(переопределяем метод)
-    # super().perform_destroy(instance)
-    #     instance.is_deleted = True
-    #     instance.save()
+    @action(detail=True, methods=['get'])  # команда получения имени автора
+    def get_author_mane(self, request, pk):
+        author = get_object_or_404(Author, pk=pk)
+        return Response({'name': str(author)})  #/api/authors/1/get_author_mane/
 
 
 
