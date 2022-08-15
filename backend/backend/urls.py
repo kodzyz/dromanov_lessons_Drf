@@ -21,8 +21,8 @@ from library.views import *  # AuthorModelViewSet, author_get, author_post, Book
 router = DefaultRouter()  # работает только с ViewSet
 # router = SimpleRouter()
 router.register('authors', AuthorModelViewSet)
-router.register('books', BookModelViewSet)
-
+# router.register('books', BookModelViewSet)
+router.register('books', BookModelLimitedViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,5 +40,8 @@ urlpatterns = [
     path('book_api_get', book_api_get),
     # ListAPIView
     path('book_api_get_list', BookListAPIView.as_view()),
+    # BookModelLimitedViewSet # вручную
+    path('book_api_view_set', BookModelLimitedViewSet.as_view({'get': 'list'})),
+    path('book_api_view_set/<int:pk>', BookModelLimitedViewSet.as_view({'get': 'retrieve'})),
 
 ]

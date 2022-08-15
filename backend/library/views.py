@@ -1,7 +1,8 @@
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import mixins
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from .models import Author, Book
 from .serializers import AuthorModelSerializer, AuthorSerializer, BookModelSerializer, BookSerializer
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
@@ -19,6 +20,19 @@ class AuthorModelViewSet(ModelViewSet):
 
 
 class BookModelViewSet(ModelViewSet):
+    serializer_class = BookModelSerializer
+    queryset = Book.objects.all()
+
+
+class BookModelLimitedViewSet(
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    GenericViewSet
+):  # не позволяет создавать(mixins.CreateModelMixin) и удалять(mixins.DestroyModelMixin): собираем из нужных операций
+    """
+        `retrieve()`, `update()`, `partial_update()`, and `list()` actions.
+    """
     serializer_class = BookModelSerializer
     queryset = Book.objects.all()
 
