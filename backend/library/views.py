@@ -9,6 +9,7 @@ from rest_framework.parsers import JSONParser
 import io
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView  # конкретизированные views
 
 
 class AuthorModelViewSet(ModelViewSet):
@@ -29,6 +30,12 @@ class BookApiView(APIView):
         books = Book.objects.all()
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)  # разница не задаем render
+
+
+class BookListAPIView(ListAPIView):  # глагол GET
+    renderer_classes = [JSONRenderer]
+    serializer_class = BookSerializer
+    queryset = books = Book.objects.all()
 
 
 @api_view(['GET'])  # аналогично APIView

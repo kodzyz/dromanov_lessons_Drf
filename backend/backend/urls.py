@@ -18,7 +18,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from library.views import *  # AuthorModelViewSet, author_get, author_post, BookModelViewSet, book_get
 
-router = DefaultRouter()
+router = DefaultRouter()  # работает только с ViewSet
 # router = SimpleRouter()
 router.register('authors', AuthorModelViewSet)
 router.register('books', BookModelViewSet)
@@ -38,5 +38,7 @@ urlpatterns = [
     # ApiView
     path('book_api_get_class', BookApiView.as_view()),
     path('book_api_get', book_api_get),
+    # ListAPIView
+    path('book_api_get_list', BookListAPIView.as_view()),
 
 ]
