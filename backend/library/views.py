@@ -24,6 +24,8 @@ class AuthorModelViewSet(ModelViewSet):
         author = get_object_or_404(Author, pk=pk)
         return Response({'name': str(author)})  #/api/authors/1/get_author_mane/
 
+    def get_queryset(self):
+        return Author.objects.filter(first_name='Александр')
 
 
 class BookModelViewSet(ModelViewSet):
