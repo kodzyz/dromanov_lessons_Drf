@@ -18,6 +18,12 @@ class AuthorModelViewSet(ModelViewSet):
     serializer_class = AuthorModelSerializer
     queryset = Author.objects.all()
 
+    # def perform_destroy(self, instance):  # вариант при частичном удалении(переопределяем метод)
+    # super().perform_destroy(instance)
+    #     instance.is_deleted = True
+    #     instance.save()
+
+
 
 class BookModelViewSet(ModelViewSet):
     serializer_class = BookModelSerializer
