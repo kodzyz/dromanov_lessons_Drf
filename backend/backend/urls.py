@@ -43,5 +43,7 @@ urlpatterns = [
     # BookModelLimitedViewSet # вручную
     path('book_api_view_set', BookModelLimitedViewSet.as_view({'get': 'list'})),
     path('book_api_view_set/<int:pk>', BookModelLimitedViewSet.as_view({'get': 'retrieve'})),
+    # action
+    path('authors_api_view_set/kwargs/<str:first_name>', AuthorModelViewSet.as_view({'get': 'list'})),  # /authors_api_view_set/kwargs/Александр
 
 ]

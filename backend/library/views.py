@@ -25,7 +25,7 @@ class AuthorModelViewSet(ModelViewSet):
         return Response({'name': str(author)})  #/api/authors/1/get_author_mane/
 
     def get_queryset(self):
-        return Author.objects.filter(first_name='Александр')
+        return Author.objects.filter(first_name=self.kwargs['first_name'])
 
 
 class BookModelViewSet(ModelViewSet):
