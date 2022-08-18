@@ -12,22 +12,28 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, renderer_classes, action
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView, \
     get_object_or_404  # конкретизированные views
+from rest_framework.pagination import LimitOffsetPagination
+
+
+class AuthorLimitOffsetPagination(LimitOffsetPagination):
+    default_limit = 2  # сколько записей по умолчанию будет выводиться
 
 
 class AuthorModelViewSet(ModelViewSet):
-    # renderer_classes = [JSONRenderer, BrowsableAPIRenderer]  # явно определяем список renderer_classes
+    pagination_class = AuthorLimitOffsetPagination
     serializer_class = AuthorModelSerializer
     queryset = Author.objects.all()
 
     @action(detail=True, methods=['get'])  # команда получения имени автора
     def get_author_mane(self, request, pk):
         author = get_object_or_404(Author, pk=pk)
-        return Response({'name': str(author)})  #/api/authors/1/get_author_mane/
+        return Response({'name': str(author)})  # /api/authors/1/get_author_mane/
 
     def get_queryset(self):
         first_name = self.request.query_params.get('first_name', None)  # если есть переданный аргумент
         if first_name:
-            return Author.objects.filter(first_name=first_name)  # http://127.0.0.1:8000/api/authors/?first_name=Александр
+            return Author.objects.filter(
+                first_name=first_name)  # http://127.0.0.1:8000/api/authors/?first_name=Александр
         return Author.objects.all()
 
 
