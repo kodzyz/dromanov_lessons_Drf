@@ -3,6 +3,7 @@ import AuthorList from './components/AuthorList.js'
 import axios from 'axios'
 import BookList from './components/BookList.js'
 import {HashRouter, BrowserRouter, Route, Routes, Link, Navigate, useLocation} from 'react-router-dom'
+import AuthorBookList from './components/AuthorBookList.js'
 
 class App extends React.Component {
 
@@ -40,9 +41,10 @@ class App extends React.Component {
             .catch(error => console.log(error))
     }
 //сделаем:
-//a: при переходе по ссылке страница не перегружалась (single page application)
-//b: меню навигации <nav> - генерим ссылки <Link to= на элементы Route <Route exact path=
-//c: Link to= поддерживает как BrowserRouter так и HashRouter
+//1. вложенный Route - список книг конкретного автора <Route index
+//2. Route - со списком id автора ':authorId'
+//3. AuthorBookList - представление для конктерного автора
+//4. id получим из глобального состояния this.setState
 
     render () {
         return (
@@ -53,8 +55,13 @@ class App extends React.Component {
                         <li> <Link to='/books'> Books </Link> </li>
                      </nav>
                     <Routes>
-                        <Route exact path='/' element={<AuthorList authors={this.state.authors} />} /> // exact- полное совпадение пути
-                        <Route exact path='/books' element={<BookList books={this.state.books} />} />} /> //  BrowserRouter- http://localhost:3000/books
+                        <Route exact path='/' element={<AuthorList authors={this.state.authors} />} />
+                        <Route exact path='/books' element={<BookList books={this.state.books} />} />
+                        <Route path='/authors'>
+                            <Route index element={<AuthorList authors={this.state.authors} />} />
+                            <Route path=':authorId' element={<AuthorBookList books={this.state.books} />} />
+                        </Route>
+
                     </Routes>
                  </BrowserRouter>
             </div>

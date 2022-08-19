@@ -49,7 +49,7 @@ class AuthorModelSerializer(ModelSerializer):
 
 
 class BookModelSerializer(ModelSerializer):
-    authors = StringRelatedField(many=True)  # из модели берется def __str__(self):
+    #authors = StringRelatedField(many=True)  # из модели берется def __str__(self):
     class Meta:
         model = Book
         fields = '__all__'
