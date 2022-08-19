@@ -43,12 +43,12 @@ class App extends React.Component {
     render () {
         return (
             <div>
-                <HashRouter>
+                <BrowserRouter>
                     <Routes>
                         <Route exact path='/' element={<AuthorList authors={this.state.authors} />} /> // exact- полное совпадение пути
-                        <Route exact path='/books' element={<BookList books={this.state.books} />} />} /> //  HashRouter- http://localhost:3000/#/books
+                        <Route exact path='/books' element={<BookList books={this.state.books} />} />} /> //  BrowserRouter- http://localhost:3000/books
                     </Routes>
-                 </HashRouter>
+                 </BrowserRouter>
             </div>
         )
     }
