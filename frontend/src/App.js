@@ -2,6 +2,7 @@ import React from 'react'
 import AuthorList from './components/AuthorList.js'
 import axios from 'axios'
 import BookList from './components/BookList.js'
+import {HashRouter, BrowserRouter, Route, Routes, Link, Navigate, useLocation} from 'react-router-dom'
 
 class App extends React.Component {
 
@@ -42,8 +43,12 @@ class App extends React.Component {
     render () {
         return (
             <div>
-                 <AuthorList authors={this.state.authors} />
-                 <BookList books={this.state.books} />
+                <HashRouter>
+                    <Routes>
+                        <Route exact path='/' element={<AuthorList authors={this.state.authors} />} /> // exact- полное совпадение пути
+                        <Route exact path='/books' element={<BookList books={this.state.books} />} />} /> //  HashRouter- http://localhost:3000/#/books
+                    </Routes>
+                 </HashRouter>
             </div>
         )
     }
