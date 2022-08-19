@@ -39,11 +39,19 @@ class App extends React.Component {
             })
             .catch(error => console.log(error))
     }
+//сделаем:
+//a: при переходе по ссылке страница не перегружалась (single page application)
+//b: меню навигации <nav> - генерим ссылки <Link to= на элементы Route <Route exact path=
+//c: Link to= поддерживает как BrowserRouter так и HashRouter
 
     render () {
         return (
             <div>
                 <BrowserRouter>
+                     <nav>
+                        <li> <Link to='/'>Authors</Link>< /li>
+                        <li> <Link to='/books'> Books </Link> </li>
+                     </nav>
                     <Routes>
                         <Route exact path='/' element={<AuthorList authors={this.state.authors} />} /> // exact- полное совпадение пути
                         <Route exact path='/books' element={<BookList books={this.state.books} />} />} /> //  BrowserRouter- http://localhost:3000/books
