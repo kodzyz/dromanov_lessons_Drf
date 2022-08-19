@@ -1,6 +1,7 @@
 import React from 'react'
 import AuthorList from './components/AuthorList.js'
 import axios from 'axios'
+import BookList from './components/BookList.js'
 
 class App extends React.Component {
 
@@ -8,7 +9,8 @@ class App extends React.Component {
         super(props)
 
         this.state = {
-            'authors': []
+            'authors': [],
+            'books': []
         }
     }
 
@@ -24,12 +26,24 @@ class App extends React.Component {
                 )
             })
             .catch(error => console.log(error))
+        axios
+            .get('http://127.0.0.1:8000/api/books/')
+            .then(response => {
+                const books = response.data
+                this.setState(
+                    {
+                        'books': books
+                    }
+                )
+            })
+            .catch(error => console.log(error))
     }
 
     render () {
         return (
             <div>
                  <AuthorList authors={this.state.authors} />
+                 <BookList books={this.state.books} />
             </div>
         )
     }
