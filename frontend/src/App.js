@@ -40,10 +40,6 @@ class App extends React.Component {
             })
             .catch(error => console.log(error))
     }
-//сделаем:
-//1. перенаправление Navigate to= с корня http://localhost:3000 на список авторов http://localhost:3000/authors
-
-
     render () {
         return (
             <div>

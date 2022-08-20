@@ -16,7 +16,7 @@ const BookItem = ({book}) => {
 
 const AuthorBookList = ({books}) => {
     var params = useParams()
-    console.log(params.authorId) //  /authors/2 => 2
+    //console.log(params.authorId) //  /authors/2 => 2
 // отфильтруем по id
     var filteredBooks = books.filter((book) => book.authors.includes(parseInt(params.authorId))) // parseInt-преобразуем в str
 

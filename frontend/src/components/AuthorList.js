@@ -1,5 +1,7 @@
-import React from 'react';
-
+import {Link} from 'react-router-dom'
+//сделаем:
+//1. кликая на автора из списка попадаем на список его книжек
+//Link to={`/authors/${author.id}`} : обратные кавычки - аналог f-строки python
 
 const AuthorItem = ({author}) => {
     return (
@@ -8,7 +10,7 @@ const AuthorItem = ({author}) => {
                 {author.first_name}
             </td>
             <td>
-                {author.last_name}
+                <Link to={`/authors/${author.id}`}>{author.last_name}</Link>
             </td>
             <td>
                 {author.birthday_year}
