@@ -1,5 +1,5 @@
-// отфильтруем книжки в зависимости от id автора методом useParams
-import {useParams} from 'react-router-dom' // return object со всеми атрибутами
+// разворачивание класса в лок переменную
+import {useParams} from 'react-router-dom'
 
 const BookItem = ({book}) => {
     return (
@@ -15,10 +15,9 @@ const BookItem = ({book}) => {
 }
 
 const AuthorBookList = ({books}) => {
-    var params = useParams()
-    //console.log(params.authorId) //  /authors/2 => 2
-// отфильтруем по id
-    var filteredBooks = books.filter((book) => book.authors.includes(parseInt(params.authorId))) // parseInt-преобразуем в str
+    var {authorId} = useParams() // внутри объкта который вернул useParams берем поле authorId и присваиваем ее переменной authorId
+    console.log(authorId)
+    var filteredBooks = books.filter((book) => book.authors.includes(parseInt(authorId)))
 
     return (
         <table>
