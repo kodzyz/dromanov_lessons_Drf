@@ -41,10 +41,8 @@ class App extends React.Component {
             .catch(error => console.log(error))
     }
 //сделаем:
-//1. вложенный Route - список книг конкретного автора <Route index
-//2. Route - со списком id автора ':authorId'
-//3. AuthorBookList - представление для конктерного автора
-//4. id получим из глобального состояния this.setState
+//1. перенаправление Navigate to= с корня http://localhost:3000 на список авторов http://localhost:3000/authors
+
 
     render () {
         return (
@@ -55,7 +53,7 @@ class App extends React.Component {
                         <li> <Link to='/books'> Books </Link> </li>
                      </nav>
                     <Routes>
-                        <Route exact path='/' element={<AuthorList authors={this.state.authors} />} />
+                    <Route exact path='/' element={<Navigate to='/authors' />} />  //ато перемаршрутизация
                         <Route exact path='/books' element={<BookList books={this.state.books} />} />
                         <Route path='/authors'>
                             <Route index element={<AuthorList authors={this.state.authors} />} />
