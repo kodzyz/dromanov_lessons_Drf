@@ -5,6 +5,16 @@ import BookList from './components/BookList.js'
 import {HashRouter, BrowserRouter, Route, Routes, Link, Navigate, useLocation} from 'react-router-dom'
 import AuthorBookList from './components/AuthorBookList.js'
 
+const NotFound = () => {
+    var {pathname} = useLocation() // инфо о странице
+
+    return (
+        <div>
+            Page "{pathname}" not found
+        </div>
+    )
+}
+
 class App extends React.Component {
 
     constructor(props) {
@@ -40,6 +50,9 @@ class App extends React.Component {
             })
             .catch(error => console.log(error))
     }
+//сделаем:
+//1. перехода на несуществующую страницу path='*'
+
     render () {
         return (
             <div>
@@ -55,7 +68,7 @@ class App extends React.Component {
                             <Route index element={<AuthorList authors={this.state.authors} />} />
                             <Route path=':authorId' element={<AuthorBookList books={this.state.books} />} />
                         </Route>
-
+                            <Route path='*' element={<NotFound />} />
                     </Routes>
                  </BrowserRouter>
             </div>
