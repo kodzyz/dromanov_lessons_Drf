@@ -13,6 +13,16 @@ from rest_framework.decorators import api_view, renderer_classes, action
 from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView, \
     get_object_or_404  # конкретизированные views
 from rest_framework.pagination import LimitOffsetPagination
+# authorization
+from rest_framework.permissions import IsAuthenticated, AllowAny, \
+    IsAuthenticatedOrReadOnly, IsAdminUser, BasePermission
+
+
+class CustomPermissions(BasePermission):  # собственные права
+
+# 'Ctrl + o' - выводит все методы
+    def has_permission(self, request, view):  # переопределим метод
+        return request.user and request.user.username == 'root'
 
 
 class AuthorLimitOffsetPagination(LimitOffsetPagination):
@@ -20,7 +30,8 @@ class AuthorLimitOffsetPagination(LimitOffsetPagination):
 
 
 class AuthorModelViewSet(ModelViewSet):
-    #pagination_class = AuthorLimitOffsetPagination
+    # pagination_class = AuthorLimitOffsetPagination
+    permission_classes = [CustomPermissions]  # права
     serializer_class = AuthorModelSerializer
     queryset = Author.objects.all()
 
