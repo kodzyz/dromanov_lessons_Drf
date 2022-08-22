@@ -46,4 +46,9 @@ urlpatterns = [
     # action
     path('authors_api_view_set/kwargs/<str:first_name>', AuthorModelViewSet.as_view({'get': 'list'})),  # /authors_api_view_set/kwargs/Александр
 
+    #форма authentication
+# возможность вбивания логина и пароля - включение стандартной формы DRF(0:54)
+    path('api-auth/', include('rest_framework.urls')), #http://127.0.0.1:8000/api/ # log in -> log out
+
 ]
+
