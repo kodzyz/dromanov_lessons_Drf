@@ -15,7 +15,8 @@ from rest_framework.generics import GenericAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.pagination import LimitOffsetPagination
 # authorization
 from rest_framework.permissions import IsAuthenticated, AllowAny, \
-    IsAuthenticatedOrReadOnly, IsAdminUser, BasePermission
+    IsAuthenticatedOrReadOnly, IsAdminUser, BasePermission,\
+    DjangoModelPermissions, DjangoModelPermissionsOrAnonReadOnly
 
 
 class CustomPermissions(BasePermission):  # собственные права
@@ -31,7 +32,7 @@ class AuthorLimitOffsetPagination(LimitOffsetPagination):
 
 class AuthorModelViewSet(ModelViewSet):
     # pagination_class = AuthorLimitOffsetPagination
-    permission_classes = [CustomPermissions]  # права
+    permission_classes = [DjangoModelPermissions]  # система прав Django на модели через /admin (user:test pass:tNbby!5X!624L2c)
     serializer_class = AuthorModelSerializer
     queryset = Author.objects.all()
 
