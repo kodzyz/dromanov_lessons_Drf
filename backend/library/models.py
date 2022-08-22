@@ -1,5 +1,5 @@
 from django.db import models
-
+from rest_framework.authtoken.models import Token
 
 class Author(models.Model):
     first_name = models.CharField(max_length=64)

@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'library.apps.LibraryConfig',
 
     'corsheaders',
+
+    'rest_framework.authtoken',  # сделаем миграции: python manage.py migrate
 ]
 
 MIDDLEWARE = [
