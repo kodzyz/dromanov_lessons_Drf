@@ -1,17 +1,17 @@
-const BookItem = ({book}) => {
+const BookItem = ({book, authors}) => {
     return (
         <tr>
             <td>
                 {book.title}
             </td>
             <td>
-                {book.authors}
+                {book.authors.map(authorId => authors.find(a => a.id == authorId).last_name) }
             </td>
         </tr>
     )
 }
 
-const BookList = ({books}) => {
+const BookList = ({books, authors}) => {
     return (
         <table>
             <th>
@@ -20,7 +20,7 @@ const BookList = ({books}) => {
             <th>
                 Authors
             </th>
-            {books.map((book) => <BookItem book={book} /> )}
+            {books.map((book) => <BookItem book={book} authors={authors} /> )}
         </table>
     )
 }

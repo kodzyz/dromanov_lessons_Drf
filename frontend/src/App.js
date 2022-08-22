@@ -31,7 +31,7 @@ class App extends React.Component {
         .get('http://127.0.0.1:8000/api/authors/')
             .then(response => {
                 const authors = response.data
-                    this.setState(  // меняем состояние компонента
+                    this.setState(
                     {
                         'authors': authors
                     }
@@ -51,7 +51,7 @@ class App extends React.Component {
             .catch(error => console.log(error))
     }
 //сделаем:
-//1. перехода на несуществующую страницу path='*'
+//1. отобразим в BookList список авторов
 
     render () {
         return (
@@ -62,8 +62,8 @@ class App extends React.Component {
                         <li> <Link to='/books'> Books </Link> </li>
                      </nav>
                     <Routes>
-                    <Route exact path='/' element={<Navigate to='/authors' />} />  //ато перемаршрутизация
-                        <Route exact path='/books' element={<BookList books={this.state.books} />} />
+                    <Route exact path='/' element={<Navigate to='/authors' />} />
+                        <Route exact path='/books' element={<BookList books={this.state.books} authors={this.state.authors} />} />
                         <Route path='/authors'>
                             <Route index element={<AuthorList authors={this.state.authors} />} />
                             <Route path=':authorId' element={<AuthorBookList books={this.state.books} />} />
