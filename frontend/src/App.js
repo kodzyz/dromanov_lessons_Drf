@@ -1,4 +1,4 @@
-// 1:38 сохранение полученного token
+// 1:46 кнопка logout; загасить token; перечитать данные
 
 import React from 'react'
 import AuthorList from './components/AuthorList.js'
@@ -80,7 +80,10 @@ class App extends React.Component {
                         'authors': authors
                     })
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({ 'authors': [] }) // очищаем список после logout
+            })
         axios
             .get('http://127.0.0.1:8000/api/books/', {headers})
             .then(response => {
@@ -91,9 +94,18 @@ class App extends React.Component {
                     }
                 )
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({ 'books': [] })
+            })
     }
 
+    logOut() {
+        localStorage.setItem('token', '') // пустая строка - загашенный токен
+        this.setState({
+            'token': ''
+        }, this.getData) // перегружаем данные
+    }
 
     render () {
         return (
@@ -102,7 +114,7 @@ class App extends React.Component {
                      <nav>
                         <li> <Link to='/'>Authors</Link>< /li>
                         <li> <Link to='/books'> Books </Link> </li>
-                        <li> <Link to='/login'> login </Link> </li>
+                        <li> {this.isAuth() ? <button onClick={() => this.logOut()} > logout </button> : <Link to='/login'> login </Link>} </li>
                      </nav>
                     <Routes>
                     <Route exact path='/' element={<Navigate to='/authors' />} />
