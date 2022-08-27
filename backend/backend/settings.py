@@ -142,7 +142,7 @@ REST_FRAMEWORK = {
 
 
 # глобально -> доступ только у авторизованных пользователей и только при DEBUG = True
-   # 'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
+   #'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
 
 # Настройка авторизации в реальном проекте
     'DEFAULT_AUTHENTICATION_CLASSES': [
