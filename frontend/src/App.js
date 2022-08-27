@@ -1,4 +1,6 @@
-// 0:56 получим token с backend - POST запрос с body
+// 1:03 запрос данных с полученным токеном (формируем заголовки)
+// если аторизованы получаем токен, формируем заголовок
+//и прикладываем его к повторному запросу
 import React from 'react'
 import AuthorList from './components/AuthorList.js'
 import axios from 'axios'
@@ -31,35 +33,55 @@ class App extends React.Component {
 
     obtainAuthToken(login, password) {
         axios
-        .post('http://127.0.0.1:8000/api-auth-token/', {
-            'username': login,
-            'password': password
-        })
-            //ответ
+            .post('http://127.0.0.1:8000/api-auth-token/', {
+                'username': login,
+                'password': password
+            })
+                //ответ
             .then(response => {
                 const token = response.data.token
                 console.log('token:', token)
                 this.setState({
-                        'token': token //сохраним состояние
+                    'token': token //сохраним состояние
                 })
+                this.getData()
             })
             .catch(error => console.log(error))
     }
 
-    componentDidMount() {
+    // проверка авторизации
+    isAuth(){
+        return this.state.token != ''
+    }
+
+    componentDidMount(){
+        this.getData()
+    }
+
+    // формирование заголовков
+    getHeaders(){
+        if(this.isAuth()){
+            return {
+                'Authorization': 'Token ' + this.state.token
+            }
+        }
+        return {}
+    }
+
+    getData() {
+        let headers = this.getHeaders()
+
         axios
-        .get('http://127.0.0.1:8000/api/authors/')
+            .get('http://127.0.0.1:8000/api/authors/', {headers}) // {'headers': headers}
             .then(response => {
                 const authors = response.data
-                    this.setState(
-                    {
+                    this.setState({
                         'authors': authors
-                    }
-                )
+                    })
             })
             .catch(error => console.log(error))
         axios
-            .get('http://127.0.0.1:8000/api/books/')
+            .get('http://127.0.0.1:8000/api/books/', {headers})
             .then(response => {
                 const books = response.data
                 this.setState(

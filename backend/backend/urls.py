@@ -23,8 +23,8 @@ from rest_framework.authtoken import views
 router = DefaultRouter()  # работает только с ViewSet
 # router = SimpleRouter()
 router.register('authors', AuthorModelViewSet)
-# router.register('books', BookModelViewSet)
-router.register('books', BookModelLimitedViewSet)
+router.register('books', BookModelViewSet)
+#router.register('books', BookModelLimitedViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
