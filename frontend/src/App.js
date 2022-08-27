@@ -1,5 +1,4 @@
-// 1:13 решение ассинхронности setState
-// getData запустится однозначно после получения токена
+// 1:38 сохранение полученного token
 
 import React from 'react'
 import AuthorList from './components/AuthorList.js'
@@ -38,8 +37,9 @@ class App extends React.Component {
             })
                 //ответ
             .then(response => {
-                const token = response.data.token
+                const token = response.data.token // получили token
                 console.log('token:', token)
+                localStorage.setItem('token', token) // сохранили token
                 this.setState({
                     'token': token
                 }, this.getData) // getData вызываем вторым параметром и в неявном виде
@@ -53,7 +53,10 @@ class App extends React.Component {
     }
 
     componentDidMount(){
-        this.getData()
+        let token = localStorage.getItem('token') // востанавливаем token из хранилища
+        this.setState({
+            'token': token
+        }, this.getData)
     }
 
     // формирование заголовков
