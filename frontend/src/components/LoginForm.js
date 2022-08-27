@@ -1,5 +1,3 @@
-//0:47 запросим token используя login и password
-
 import React from 'react'
 
 class LoginForm extends React.Component {

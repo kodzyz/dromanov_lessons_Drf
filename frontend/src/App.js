@@ -1,4 +1,4 @@
-// 0:49 обработчик получения token
+// 0:56 получим token с backend - POST запрос с body
 import React from 'react'
 import AuthorList from './components/AuthorList.js'
 import axios from 'axios'
@@ -19,18 +19,31 @@ const NotFound = () => {
 }
 
 class App extends React.Component {
-
     constructor(props) {
         super(props)
 
         this.state = {
             'authors': [],
-            'books': []
+            'books': [],
+            'token': ''
         }
     }
 
     obtainAuthToken(login, password) {
-        console.log('obtainAuthToken:', login, password)
+        axios
+        .post('http://127.0.0.1:8000/api-auth-token/', {
+            'username': login,
+            'password': password
+        })
+            //ответ
+            .then(response => {
+                const token = response.data.token
+                console.log('token:', token)
+                this.setState({
+                        'token': token //сохраним состояние
+                })
+            })
+            .catch(error => console.log(error))
     }
 
     componentDidMount() {
