@@ -1,6 +1,6 @@
-// 1:03 запрос данных с полученным токеном (формируем заголовки)
-// если аторизованы получаем токен, формируем заголовок
-//и прикладываем его к повторному запросу
+// 1:13 решение ассинхронности setState
+// getData запустится однозначно после получения токена
+
 import React from 'react'
 import AuthorList from './components/AuthorList.js'
 import axios from 'axios'
@@ -8,7 +8,6 @@ import BookList from './components/BookList.js'
 import {HashRouter, BrowserRouter, Route, Routes, Link, Navigate, useLocation} from 'react-router-dom'
 import AuthorBookList from './components/AuthorBookList.js'
 import LoginForm from './components/LoginForm.js'
-
 
 const NotFound = () => {
     var {pathname} = useLocation() // инфо о странице
@@ -42,9 +41,8 @@ class App extends React.Component {
                 const token = response.data.token
                 console.log('token:', token)
                 this.setState({
-                    'token': token //сохраним состояние
-                })
-                this.getData()
+                    'token': token
+                }, this.getData) // getData вызываем вторым параметром и в неявном виде
             })
             .catch(error => console.log(error))
     }
