@@ -1,6 +1,4 @@
-//0:35 событие onChange
-//привязка обработчика события к <input полю
-//становится доступным набор в полях формы
+//0:39 обращаемся к параметру target ->name="login" или name="password"
 import React from 'react'
 
 class LoginForm extends React.Component {
@@ -16,13 +14,7 @@ class LoginForm extends React.Component {
 
     handleChange(event){
         this.setState({
-            'login': event.target.value
-        })
-    }
-
-    handlePasswordChange(event){
-        this.setState({
-            'password': event.target.value
+            [event.target.name]: event.target.value
         })
     }
 
@@ -31,7 +23,7 @@ class LoginForm extends React.Component {
             <div>
                 <form>
                     <input type="text" name="login" placeholder="login" value={this.state.login} onChange={(event) => this.handleChange(event)} />
-                    <input type="password" name="password" placeholder="password" value={this.state.password} onChange={(event) => this.handlePasswordChange(event)} />
+                    <input type="password" name="password" placeholder="password" value={this.state.password} onChange={(event) => this.handleChange(event)} />
                     <input type="submit" value="Login" />
 
                 </form>
