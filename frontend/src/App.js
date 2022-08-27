@@ -1,3 +1,4 @@
+// 0:49 обработчик получения token
 import React from 'react'
 import AuthorList from './components/AuthorList.js'
 import axios from 'axios'
@@ -28,6 +29,10 @@ class App extends React.Component {
         }
     }
 
+    obtainAuthToken(login, password) {
+        console.log('obtainAuthToken:', login, password)
+    }
+
     componentDidMount() {
         axios
         .get('http://127.0.0.1:8000/api/authors/')
@@ -52,8 +57,7 @@ class App extends React.Component {
             })
             .catch(error => console.log(error))
     }
-//сделаем:
-//1. отобразим в BookList список авторов
+
 
     render () {
         return (
@@ -67,7 +71,7 @@ class App extends React.Component {
                     <Routes>
                     <Route exact path='/' element={<Navigate to='/authors' />} />
                         <Route exact path='/books' element={<BookList books={this.state.books} authors={this.state.authors} />} />
-                        <Route exact path='/login' element={<LoginForm />} />
+                        <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
 
                         <Route path='/authors'>
                             <Route index element={<AuthorList authors={this.state.authors} />} />

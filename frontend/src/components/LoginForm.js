@@ -1,5 +1,4 @@
-//0:43 нажатие на кнопку Login вызывает перезагрузку приложения js
-//запретим кнопке работать как submit - выполнение GET запроса
+//0:47 запросим token используя login и password
 
 import React from 'react'
 
@@ -7,7 +6,7 @@ class LoginForm extends React.Component {
 
     constructor(props) {
         super(props)
-
+        //this.obtainAuthToken = props.obtainAuthToken
         this.state = {
             'login': '',
             'password': ''
@@ -21,7 +20,8 @@ class LoginForm extends React.Component {
     }
 
     handleSubmit(event) {
-        console.log(this.state.login, this.state.password) // что сохранилось в состоянии при нажатии на Login
+        this.props.obtainAuthToken(this.state.login, this.state.password)
+        //console.log(this.state.login, this.state.password) // что сохранилось в состоянии при нажатии на Login
         event.preventDefault() // запрет событий по умолчанию в браузере
     }
 
