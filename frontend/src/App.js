@@ -1,4 +1,4 @@
-// 1:46 кнопка logout; загасить token; перечитать данные
+// 2:01 ошибка в режиме инкогнито
 
 import React from 'react'
 import AuthorList from './components/AuthorList.js'
@@ -49,7 +49,7 @@ class App extends React.Component {
 
     // проверка авторизации
     isAuth(){
-        return this.state.token != ''
+        return !!this.state.token  // конвертируем в boolean
     }
 
     componentDidMount(){
