@@ -1,7 +1,6 @@
 from django.test import TestCase
-# тестирование запросов целиком
-# отправлять запросы на определённый адрес и сразу получать ответ
-from rest_framework.test import APIRequestFactory, force_authenticate, APIClient
+# включает в себя механизм создания клиента client = APIClient()
+from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from .views import AuthorModelViewSet
 from rest_framework import status
 from django.contrib.auth.models import User
@@ -23,9 +22,8 @@ class AuthorTestCase(TestCase):
         self.assertEqual(len(response.data), 1)
 
 
-class AuthorClientTestCase(TestCase):
+class AuthorClientTestCase(APITestCase):
     def setUp(self) -> None:
-        self.client = APIClient()  # полноценная эмуляция клиента
         self.user = User.objects.create_superuser(username='root', password='1234')
         self.author = Author.objects.create(first_name='Александр', last_name='Пушкин', birthday_year=1799)
 
