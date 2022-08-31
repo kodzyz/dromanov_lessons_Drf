@@ -13,7 +13,7 @@ class AuthorClientTestCase(APITestCase):
     def setUp(self) -> None:
         self.user = User.objects.create_superuser(username='root', password='1234')
         self.author = mixer.blend(Author)
-        self.bio = mixer.blend(Bio)  # сгенерит вложенные модели
+        self.bio = mixer.blend(Bio, author__birthday_year=1900)
 
     def test_post(self):
         self.client.login(username='root', password='1234')
