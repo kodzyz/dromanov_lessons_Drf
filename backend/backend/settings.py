@@ -150,9 +150,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication'
     ],
-# API version фигурирует в QueryParameter : URL не надо менять
-#http://127.0.0.1:8000/api/authors/?version=2.0
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning'
+# API version фигурирует в headers
+#http://127.0.0.1:8000/api/authors/
+#Postman->Headers->Accept=application/json;version=2.0
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning'
 
 }
 
