@@ -48,7 +48,5 @@ urlpatterns = [
     # authtoken
     path('api-auth-token/', views.obtain_auth_token),
 
-    # NamespaceVersioning:
-    path('api/2.0/', include('library.urls', namespace='2.0')),
 
 ]
