@@ -20,15 +20,9 @@ from library.views import *  # AuthorModelViewSet, author_get, author_post, Book
 # authtoken
 from rest_framework.authtoken import views
 
-router = DefaultRouter()  # работает только с ViewSet
-# router = SimpleRouter()
-router.register('authors', AuthorModelViewSet)
-router.register('books', BookModelViewSet)
-#router.register('books', BookModelLimitedViewSet)
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api/', include('library.urls')),
 
     path('author_get', author_get),
     path('author_get/<int:pk>', author_get),
@@ -46,25 +40,15 @@ urlpatterns = [
     path('book_api_view_set', BookModelLimitedViewSet.as_view({'get': 'list'})),
     path('book_api_view_set/<int:pk>', BookModelLimitedViewSet.as_view({'get': 'retrieve'})),
     # action
-    path('authors_api_view_set/kwargs/<str:first_name>', AuthorModelViewSet.as_view({'get': 'list'})),  # /authors_api_view_set/kwargs/Александр
+    path('authors_api_view_set/kwargs/<str:first_name>', AuthorModelViewSet.as_view({'get': 'list'})),
 
-    #форма authentication
-# возможность вбивания логина и пароля - включение стандартной формы DRF(0:54)
-    path('api-auth/', include('rest_framework.urls')), #http://127.0.0.1:8000/api/ # log in -> log out
+    # форма authentication
+    path('api-auth/', include('rest_framework.urls')),
 
-    #authtoken
-    #Postman POST /api-auth-token/ {"username": "root", "password": "1234"} SEND
-    # =>
-    #{"token": "4f2f78f6c5dec7d53b50bf0e73d9278ecd7dacee"}
-
-    #Postman GET /api/authors/ Headers KEY:Authorization, VALUE:Token 4f2f78f6c5dec7d53b50bf0e73d9278ecd7dacee SEND
+    # authtoken
     path('api-auth-token/', views.obtain_auth_token),
 
-    # URLPathVersioning:
-    #http://127.0.0.1:8000/api/2.0/authors/
-    path('api/<str:version>/authors/', AuthorModelViewSet.as_view({'get': 'list'})),
-    #re_path(r'api/(?P<version>\d.\d)/authors', AuthorModelViewSet.as_view({'get': 'list'})),
-
+    # NamespaceVersioning:
+    path('api/2.0/', include('library.urls', namespace='2.0')),
 
 ]
-

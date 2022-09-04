@@ -152,7 +152,7 @@ REST_FRAMEWORK = {
     ],
 # API version фигурирует в path
 #http://127.0.0.1:8000/api/authors/ -> http://127.0.0.1:8000/api/2.0/authors/ -> api/<str:version>/authors/
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning'
 
 }
 
