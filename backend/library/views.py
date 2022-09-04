@@ -4,7 +4,8 @@ from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from .models import Author, Book
-from .serializers import AuthorModelSerializer, AuthorSerializer, BookModelSerializer, BookSerializer
+from .serializers import AuthorModelSerializer, AuthorSerializer, BookModelSerializer, BookSerializer, \
+    AuthorModelSerializerV2
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.parsers import JSONParser
 import io
@@ -29,12 +30,18 @@ class CustomPermissions(BasePermission):  # собственные права
 class AuthorLimitOffsetPagination(LimitOffsetPagination):
     default_limit = 2  # сколько записей по умолчанию будет выводиться
 
-
+# делаем точку разделения API version
+# делаем динамический serializer
 class AuthorModelViewSet(ModelViewSet):
     # pagination_class = AuthorLimitOffsetPagination
     #permission_classes = [DjangoModelPermissions]  # система прав Django на модели через /admin (user:test pass:tNbby!5X!624L2c)
-    serializer_class = AuthorModelSerializer
+    #serializer_class = AuthorModelSerializer # статический serializer не указываем, а реализовываем метод get_serializer_class
     queryset = Author.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.version == '2.0':  # как передать version в request?
+            return AuthorModelSerializerV2
+        return AuthorModelSerializer  # version by default
 
     @action(detail=True, methods=['get'])  # команда получения имени автора
     def get_author_mane(self, request, pk):

@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 from library.views import *  # AuthorModelViewSet, author_get, author_post, BookModelViewSet, book_get
 # authtoken
@@ -59,6 +59,11 @@ urlpatterns = [
 
     #Postman GET /api/authors/ Headers KEY:Authorization, VALUE:Token 4f2f78f6c5dec7d53b50bf0e73d9278ecd7dacee SEND
     path('api-auth-token/', views.obtain_auth_token),
+
+    # URLPathVersioning:
+    #http://127.0.0.1:8000/api/2.0/authors/
+    path('api/<str:version>/authors/', AuthorModelViewSet.as_view({'get': 'list'})),
+    #re_path(r'api/(?P<version>\d.\d)/authors', AuthorModelViewSet.as_view({'get': 'list'})),
 
 
 ]

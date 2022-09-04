@@ -47,6 +47,11 @@ class AuthorModelSerializer(ModelSerializer):
         # fields = ['first_name', 'last_name']
         fields = '__all__'
 
+class AuthorModelSerializerV2(ModelSerializer):  # API version 2
+    class Meta:
+        model = Author
+        fields = ['id', 'first_name', 'last_name']
+
 
 class BookModelSerializer(ModelSerializer):
     #authors = StringRelatedField(many=True)  # из модели берется def __str__(self):
