@@ -19,6 +19,20 @@ from rest_framework.routers import DefaultRouter
 from library.views import *  # AuthorModelViewSet, author_get, author_post, BookModelViewSet, book_get
 # authtoken
 from rest_framework.authtoken import views
+# OpenAPI
+from drf_yasg.views import get_schema_view
+from drf_yasg.openapi import Info, License, Contact
+
+schema_view = get_schema_view(
+    Info(
+        title='Library',
+        default_version='1.0',
+        description='description',
+        license=License(name='MIT'),
+        contact=Contact(email='test@yandex.ru')
+    )
+
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -47,6 +61,10 @@ urlpatterns = [
 
     # authtoken
     path('api-auth-token/', views.obtain_auth_token),
-
+    # OpenAPI
+    path('swagger', schema_view.with_ui()),
+    # http://127.0.0.1:8000/swagger.json
+    # http://127.0.0.1:8000/swagger.yaml
+    re_path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui()),
 
 ]

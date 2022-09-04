@@ -36,14 +36,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'rest_framework',
-
     'library.apps.LibraryConfig',
-
     'corsheaders',
+    'rest_framework.authtoken',
 
-    'rest_framework.authtoken',  # сделаем миграции: python manage.py migrate
+    'drf_yasg',  # OpenAPI
 ]
 
 MIDDLEWARE = [
@@ -166,6 +164,4 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-# как добавить логин и пароль к GET-запросу через Postman(1:06):
-# 1 - в Postman с помощью (Headers) Auth -> BasicAuth(Base64 format):username, password]
-# 2 - TokenAuth (1:22)
+# pip install -U drf-yasg
