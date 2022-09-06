@@ -22,6 +22,8 @@ from rest_framework.authtoken import views
 # OpenAPI
 from drf_yasg.views import get_schema_view
 from drf_yasg.openapi import Info, License, Contact
+# graphene-django
+from graphene_django.views import GraphQLView
 
 schema_view = get_schema_view(
     Info(
@@ -66,5 +68,7 @@ urlpatterns = [
     # http://127.0.0.1:8000/swagger.json
     # http://127.0.0.1:8000/swagger.yaml
     re_path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui()),
+    # graphene-django
+    path("graphql/", GraphQLView.as_view(graphiql=True)),  # graphiql - показывать веб-интерфейс
 
 ]

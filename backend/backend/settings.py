@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'drf_yasg',  # OpenAPI
+
+    "graphene_django",  # pip install graphene-django
 ]
 
 MIDDLEWARE = [
@@ -105,6 +107,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+GRAPHENE = {
+    'SCHEMA': 'library.graphql.schema'  # /backend/library/graphql.py
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -164,4 +170,3 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-# pip install -U drf-yasg
