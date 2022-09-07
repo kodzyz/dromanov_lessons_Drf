@@ -24,25 +24,21 @@ class Query(graphene.ObjectType):
     all_books = graphene.List(BookObjectType)
 
     def resolve_all_books(self, info):
-        return Book.objects.all()
+        # return Book.objects.all()
+        return Author.objects.get(pk=1).book_set.all()
+
+    # {
+    #   allBooks{title}
+    # }
 
     # получение автора по id
     get_author_by_id = graphene.Field(AuthorObjectType, pk=graphene.Int(required=True))
 
-    # Field-сложное поле AuthorObjectType-тип возвращаемых данных
-    # ..., pk=-значение которое нужно получить
-
     def resolve_get_author_by_id(self, info, pk):  # получает id
         return Author.objects.get(pk=pk)
+
+    # получение более одной модели
 
 
 schema = graphene.Schema(query=Query)
 
-# {
-#   getAuthorById(pk:1){
-#     id
-#     firstName
-#     lastName
-#     birthdayYear
-#   }
-# }
