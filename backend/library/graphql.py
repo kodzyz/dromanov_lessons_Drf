@@ -50,20 +50,27 @@ class Query(graphene.ObjectType):
         return Author.objects.filter(**params)
 
 
-# {
-#   getAuthorByName(firstName:"Александр", lastName:"Грин"){
-#     id
-#     firstName
-#     lastName
-#   }
-# }
+# создание автора
+class AuthorCreateMutation(graphene.Mutation):
+    # список входных параметров
+    class Arguments:
+        first_name = graphene.String(required=True)
+        last_name = graphene.String(required=True)
+        birthday_year = graphene.Int(required=True)
 
-# {
-#   getAuthorByName(lastName:"Пуш"){
-#     id
-#     firstName
-#     lastName
-#   }
-# }
+    author = graphene.Field(AuthorObjectType)
 
-schema = graphene.Schema(query=Query)
+    @classmethod
+    def mutate(cls, root, info, first_name, last_name, birthday_year):
+        author = Author(first_name=first_name, last_name=last_name, birthday_year=birthday_year)
+        author.save()
+        return cls(author)
+
+
+# применение mutate: команды которые реализцую мутацию
+class Mutations(graphene.ObjectType):
+    create_author = AuthorCreateMutation.Field()
+
+
+# регистрация mutate
+schema = graphene.Schema(query=Query, mutation=Mutations)
