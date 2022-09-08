@@ -67,9 +67,51 @@ class AuthorCreateMutation(graphene.Mutation):
         return cls(author)
 
 
+class AuthorUpdateMutation(graphene.Mutation):
+    # список входных параметров
+    class Arguments:
+        pk = graphene.Int(required=True)  # единственный обязательный
+        first_name = graphene.String(required=False)
+        last_name = graphene.String(required=False)
+        birthday_year = graphene.Int(required=False)
+
+    author = graphene.Field(AuthorObjectType)
+
+    @classmethod
+    def mutate(cls, root, info, pk, first_name=None, last_name=None, birthday_year=None):
+        author = Author.objects.get(pk=pk)  # сперва получили автора
+        # проверка
+        if first_name:
+            author.first_name = first_name
+        if last_name:
+            author.last_name = last_name
+        if birthday_year:
+            author.birthday_year = birthday_year
+
+        if first_name or last_name or birthday_year:
+            author.save()
+        return cls(author)
+
+# mutation {
+#   updateAuthor(
+#     pk: 7
+#     firstName: "Виктор",
+#     lastName: "Пелевин",
+#     birthdayYear: 1962) {
+#     author {
+#       id
+#       firstName
+#       lastName
+#       birthdayYear
+#     }
+#   }
+# }
+
+
 # применение mutate: команды которые реализцую мутацию
 class Mutations(graphene.ObjectType):
     create_author = AuthorCreateMutation.Field()
+    update_author = AuthorUpdateMutation.Field()
 
 
 # регистрация mutate
