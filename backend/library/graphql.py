@@ -24,16 +24,13 @@ class Query(graphene.ObjectType):
     all_books = graphene.List(BookObjectType)
 
     def resolve_all_books(self, info):
-        # return Book.objects.all()
         return Author.objects.get(pk=1).book_set.all()
 
-    # получение автора по id
     get_author_by_id = graphene.Field(AuthorObjectType, pk=graphene.Int(required=True))
 
-    def resolve_get_author_by_id(self, info, pk):  # получает id
+    def resolve_get_author_by_id(self, info, pk):
         return Author.objects.get(pk=pk)
 
-    # получение автора по имени
     get_author_by_name = graphene.List(AuthorObjectType,
                                        first_name=graphene.String(required=False),
                                        last_name=graphene.String(required=False)
@@ -50,9 +47,7 @@ class Query(graphene.ObjectType):
         return Author.objects.filter(**params)
 
 
-# создание автора
 class AuthorCreateMutation(graphene.Mutation):
-    # список входных параметров
     class Arguments:
         first_name = graphene.String(required=True)
         last_name = graphene.String(required=True)
@@ -68,9 +63,8 @@ class AuthorCreateMutation(graphene.Mutation):
 
 
 class AuthorUpdateMutation(graphene.Mutation):
-    # список входных параметров
     class Arguments:
-        pk = graphene.Int(required=True)  # единственный обязательный
+        pk = graphene.Int(required=True)
         first_name = graphene.String(required=False)
         last_name = graphene.String(required=False)
         birthday_year = graphene.Int(required=False)
@@ -79,7 +73,7 @@ class AuthorUpdateMutation(graphene.Mutation):
 
     @classmethod
     def mutate(cls, root, info, pk, first_name=None, last_name=None, birthday_year=None):
-        author = Author.objects.get(pk=pk)  # сперва получили автора
+        author = Author.objects.get(pk=pk)
         # проверка
         if first_name:
             author.first_name = first_name
@@ -92,27 +86,10 @@ class AuthorUpdateMutation(graphene.Mutation):
             author.save()
         return cls(author)
 
-# mutation {
-#   updateAuthor(
-#     pk: 7
-#     firstName: "Виктор",
-#     lastName: "Пелевин",
-#     birthdayYear: 1962) {
-#     author {
-#       id
-#       firstName
-#       lastName
-#       birthdayYear
-#     }
-#   }
-# }
 
-
-# применение mutate: команды которые реализцую мутацию
 class Mutations(graphene.ObjectType):
     create_author = AuthorCreateMutation.Field()
     update_author = AuthorUpdateMutation.Field()
 
 
-# регистрация mutate
 schema = graphene.Schema(query=Query, mutation=Mutations)
