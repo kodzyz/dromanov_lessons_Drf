@@ -7,6 +7,7 @@ import BookList from './components/BookList.js'
 import {HashRouter, BrowserRouter, Route, Routes, Link, Navigate, useLocation} from 'react-router-dom'
 import AuthorBookList from './components/AuthorBookList.js'
 import LoginForm from './components/LoginForm.js'
+import BookForm from './components/BookForm.js'
 
 const NotFound = () => {
     var {pathname} = useLocation() // инфо о странице
@@ -115,11 +116,13 @@ class App extends React.Component {
                      <nav>
                         <li> <Link to='/'>Authors</Link>< /li>
                         <li> <Link to='/books'> Books </Link> </li>
+                        <li> <Link to='/create_book'> Create book</Link> </li>
                         <li> {this.isAuth() ? <button onClick={() => this.logOut()} > logout </button> : <Link to='/login'> login </Link>} </li>
                      </nav>
                     <Routes>
                     <Route exact path='/' element={<Navigate to='/authors' />} />
                         <Route exact path='/books' element={<BookList books={this.state.books} authors={this.state.authors} />} />
+                        <Route exact path='/create_book' element={<BookForm authors={this.state.authors} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
 
                         <Route path='/authors'>
