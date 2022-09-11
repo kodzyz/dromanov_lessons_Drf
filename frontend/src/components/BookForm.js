@@ -38,9 +38,8 @@ class BookForm extends React.Component {
     }
 
     handleSubmit(event) {
-        //this.props.obtainAuthToken(this.state.login, this.state.password)
-        console.log(this.state.title, this.state.authors)
-        event.preventDefault() // запрет событий по умолчанию в браузере
+        this.props.createBook(this.state.title, this.state.authors)  // пробросили данные в App.js
+        event.preventDefault()
     }
 
     render () {
