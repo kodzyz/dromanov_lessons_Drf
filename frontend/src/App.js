@@ -32,6 +32,18 @@ class App extends React.Component {
 
     createBook(title, authors) {
         console.log(title, authors)
+
+        let headers = this.getHeaders()
+
+        axios
+            .post('http://127.0.0.1:8000/api/books/', {'title': title, 'authors': authors}, {headers})
+            // отображение созданной книжки локально
+            .then(response => {
+                this.getData()
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     obtainAuthToken(login, password) {
