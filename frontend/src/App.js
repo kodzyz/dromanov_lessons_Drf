@@ -122,7 +122,7 @@ class App extends React.Component {
                     <Routes>
                     <Route exact path='/' element={<Navigate to='/authors' />} />
                         <Route exact path='/books' element={<BookList books={this.state.books} authors={this.state.authors} />} />
-                        <Route exact path='/create_book' element={<BookForm authors={this.state.authors} />} />
+                        <Route exact path='/create_book' element={<BookForm authors={this.state.authors} />} />  //  создаем новую книжку, список книжек для этого не нужен, а список авторов нужен для поля 'authors'
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
 
                         <Route path='/authors'>
