@@ -16,9 +16,30 @@ class BookForm extends React.Component {
         })
     }
 
+    // метод обработки выбора автора
+    handleAuthorsSelect(event) {
+        if (!event.target.selectedOptions) {
+            this.setState({
+                'authors': []  // очищаем - пустой массив
+            })
+            return;
+        }
+
+        let authors = []
+
+        for(let option of event.target.selectedOptions) {
+            authors.push(option.value)
+        }
+
+        this.setState({
+            'authors': authors
+        })
+        // test [1', '2']  массив выбранных id
+    }
+
     handleSubmit(event) {
         //this.props.obtainAuthToken(this.state.login, this.state.password)
-        //console.log(this.state.login, this.state.password) // что сохранилось в состоянии при нажатии на Login
+        console.log(this.state.title, this.state.authors)
         event.preventDefault() // запрет событий по умолчанию в браузере
     }
 
@@ -27,7 +48,7 @@ class BookForm extends React.Component {
             <div>
                 <form onSubmit={(event) => this.handleSubmit(event)}>
                     <input type="text" name="title" placeholder="title" value={this.state.title} onChange={(event) => this.handleChange(event)} />
-                    <select multiple>
+                    <select multiple onChange={(event) => this.handleAuthorsSelect(event)}>
                         {this.props.authors.map((author) => <option value={author.id}>{author.first_name} {author.last_name}</option> )}
                     </select>
                     <input type="submit" value="Create" />
