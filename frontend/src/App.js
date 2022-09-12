@@ -32,7 +32,18 @@ class App extends React.Component {
     }
 
     deleteBook(bookId) {
-        console.log(bookId)
+        let headers = this.getHeaders()
+
+        axios
+            .delete(`http://127.0.0.1:8000/api/books/${bookId}`, {headers})
+            .then(response => {
+                this.setState({
+                    'books': this.state.books.filter((book) => book.id != bookId)
+                })
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     createBook(title, authors) {
