@@ -31,6 +31,10 @@ class App extends React.Component {
         }
     }
 
+    deleteBook(bookId) {
+        console.log(bookId)
+    }
+
     createBook(title, authors) {
         console.log(title, authors)
 
@@ -147,7 +151,7 @@ class App extends React.Component {
                      </nav>
                     <Routes>
                     <Route exact path='/' element={<Navigate to='/authors' />} />
-                        <Route exact path='/books' element={<BookList books={this.state.books} authors={this.state.authors} />} />
+                        <Route exact path='/books' element={<BookList books={this.state.books} authors={this.state.authors} deleteBook={(bookId) => this.deleteBook(bookId)} />} />
                         <Route exact path='/create_book' element={<BookForm authors={this.state.authors} createBook={(title, authors) => this.createBook(title, authors)} />} />
                         <Route exact path='/login' element={<LoginForm obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)} />} />
 

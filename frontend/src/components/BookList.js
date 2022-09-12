@@ -1,4 +1,4 @@
-const BookItem = ({book, authors}) => {
+const BookItem = ({book, authors, deleteBook}) => {
     return (
         <tr>
             <td>
@@ -7,11 +7,14 @@ const BookItem = ({book, authors}) => {
             <td>
                 {book.authors.map(authorId => authors.find(a => a.id == authorId).last_name) }
             </td>
+            <td>
+                <button onClick={() => deleteBook(book.id) }>Delete</button>
+            </td>
         </tr>
     )
 }
 
-const BookList = ({books, authors}) => {
+const BookList = ({books, authors, deleteBook}) => {
     return (
         <table>
             <th>
@@ -20,7 +23,7 @@ const BookList = ({books, authors}) => {
             <th>
                 Authors
             </th>
-            {books.map((book) => <BookItem book={book} authors={authors} /> )}
+            {books.map((book) => <BookItem book={book} authors={authors} deleteBook={deleteBook} /> )}
         </table>
     )
 }
