@@ -26,7 +26,8 @@ class App extends React.Component {
         this.state = {
             'authors': [],
             'books': [],
-            'token': ''
+            'token': '',
+            'redirect': false
         }
     }
 
@@ -39,7 +40,9 @@ class App extends React.Component {
             .post('http://127.0.0.1:8000/api/books/', {'title': title, 'authors': authors}, {headers})
             // отображение созданной книжки локально
             .then(response => {
-                this.getData()
+                this.setState({
+                    'redirect': '/books'
+                }, this.getData)
             })
             .catch(error => {
                 console.log(error)
@@ -58,7 +61,8 @@ class App extends React.Component {
                 console.log('token:', token)
                 localStorage.setItem('token', token) // сохранили token
                 this.setState({
-                    'token': token
+                    'token': token,
+                    'redirect': '/'
                 }, this.getData) // getData вызываем вторым параметром и в неявном виде
             })
             .catch(error => console.log(error))
@@ -88,6 +92,10 @@ class App extends React.Component {
     }
 
     getData() {
+        this.setState({
+            'redirect': false
+        })
+
         let headers = this.getHeaders()
 
         axios
@@ -129,6 +137,8 @@ class App extends React.Component {
         return (
             <div>
                 <BrowserRouter>
+                    {this.state.redirect ? <Navigate to={this.state.redirect} /> : <div/>}
+
                      <nav>
                         <li> <Link to='/'>Authors</Link>< /li>
                         <li> <Link to='/books'> Books </Link> </li>
