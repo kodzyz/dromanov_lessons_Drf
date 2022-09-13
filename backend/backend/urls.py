@@ -26,6 +26,8 @@ from drf_yasg.openapi import Info, License, Contact
 from graphene_django.views import GraphQLView
 # CSRF verification failed
 from django.views.decorators.csrf import csrf_exempt
+# production
+from django.views.generic import TemplateView
 
 schema_view = get_schema_view(
     Info(
@@ -72,12 +74,8 @@ urlpatterns = [
     re_path(r'swagger(?P<format>\.json|\.yaml)', schema_view.without_ui()),
     # graphene-django
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),  # graphiql - показывать веб-интерфейс
+    # production
+    path('', TemplateView.as_view(template_name='index.html'))
 
 ]
 
-# Postman:
-# POST -> http://127.0.0.1:8000/graphql/
-# Body:
-# {
-#     "query": "{allAuthors {id firstName lastName birthdayYear}}"
-# }

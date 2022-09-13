@@ -178,3 +178,5 @@ class App extends React.Component {
     }
 }
 export default App;
+
+// npm run build (2:02) : frontend in backend
