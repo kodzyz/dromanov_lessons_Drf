@@ -27,3 +27,13 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: backend.settings.production
 
+  nginx:
+    build: ./nginx
+    privileged: true
+    restart: always
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
+
+
