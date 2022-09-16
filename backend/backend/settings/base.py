@@ -173,4 +173,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
+# Dockerfile:
+# команда -
+# RUN pip install -r requirements.txt
+# в терминале запишем
+# pip freeze > requirementsts.txt
 
+# docker-compose.yml:
+# image: ./backend -> путь к Dockerfile (1:27)
